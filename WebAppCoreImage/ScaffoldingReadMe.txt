@@ -1,38 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using WebAppCoreImage.Models;
+﻿
+ASP.NET MVC core dependencies have been added to the project.
+(These dependencies include packages required to enable scaffolding)
 
-namespace WebAppCoreImage
-{
-    public class Startup
-    {
+However you may still need to do make changes to your project.
+
+1. Suggested changes to Startup class:
+    1.1 Add a constructor:
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+    1.2 Add MVC services:
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<DataContext>();
+            // Add framework services.
             services.AddMvc();
-        }
+       }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    1.3 Configure web app to use use Configuration and use MVC routing:
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -48,5 +41,3 @@ namespace WebAppCoreImage
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-    }
-}
